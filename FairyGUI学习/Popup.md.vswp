@@ -1,0 +1,29 @@
+vnote_backup_file_826537664 D:/Vnote文档/FairyGUI学习/Popup.md
+# 1. Popup
+## 1.1. 基础使用
+使用ShowPopup函数显示组件，在点击空白处时自动关闭组件
+
+``` Typescript
+//弹出在当前鼠标位置
+GRoot.inst.ShowPopup(aComponent);
+//弹出在aButton的下方
+GRoot.inst.ShowPopup(aComponent, aButton);
+//弹出在自定义的位置
+GRoot.inst.ShowPopup(aComponent);
+aComponent.SetXY(100, 100);
+```
+
+**窗口也可以通过ShowPopup弹出**
+
+## 1.2. 手动关闭
+调用HidePopup
+
+## 1.3. 获得事件通知
+### 1.3.1. 获得关闭通知
+//Laya
+aComponent.on(laya.events.Event.UNDISPLAY, this, this.onPopupClosed);
+
+## 1.4. 弹出菜单 PopupMenu
+
+
+

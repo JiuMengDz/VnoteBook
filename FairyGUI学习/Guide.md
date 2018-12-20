@@ -149,4 +149,40 @@ GearBase.disableAllTweenEffect = false;
 
 ## 1.15. 窗口组件 Window
 
+## 1.16. Popup管理（见详细文档，用处大）
+
+## 1.17. 自由拖动
+aObject.draggable = true;
+### 1.17.1. 限制拖动范围
+//注意这里的矩形范围使用的是舞台上的坐标，不是元件的本地坐标。
+aObject.dragBounds = new Rect(100,100,200,200);
+### 1.17.2. 获取拖动通知
+//Laya
+aObject.on(fairygui.Events.DRAG_START, this, this.onDragStart);  拖动开始
+aObject.on(fairygui.Events.DRAG_MOVE, this, this.onDragMove);  拖动中
+aObject.on(fairygui.Events.DRAG_END, this, this.onDragEnd);  拖动结束
+
+### 1.17.3. 转换拖动 特定区域拖动
+第一步   先设置区域可拖动
+//设置拖动区域为可拖动，然后侦听拖动开始事件
+_dragArea.draggable = true;
+_dragArea.onDragStart.Add(onDragStart);
+
+//Laya
+onDragStart(evt:laya.events.Event) {
+    var obj: fairygui.GObject = fairygui.GObject.cast(evt.currentTarget);
+    //取消对原目标的拖动，换成一个替代品
+    obj.stopDrag();
+    this.startDrag();
+}
+
+### 1.17.4. 替身拖动
+拖动**只能在元件的父组件内移动**，如果你需要在全屏幕内移动，那么**需要用到替身拖动**
+
+## 1.18. [动效 Transition](http://www.fairygui.com/guide/editor/transition.html)
+
+
+
+
+
 
