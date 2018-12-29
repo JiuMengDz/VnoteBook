@@ -1,11 +1,14 @@
 # 1. 基础
 git是分布式版本控制系统
+
 ![](_v_images/20181225115718928_27010.png =400x)
 
-## 1.1. 配置用户的个人信息
-$ git config --global user.name "John Doe"
 
+## 1.1. 配置用户的个人信息
+```
+$ git config --global user.name "John Doe"
 $ git config --global user.email johndoe@example.com
+```
 
 如果使用了 --global 选项，那么该命令只需要运行一次，因为之后无论你在该系统上做任何事情， Git 都会使用那些信息。 当你想针对特定项目使用不同的用户名称与邮件地址时，可以在那个项目目录下运行没有 --global 选项的命令来配置。
 
@@ -33,7 +36,9 @@ $ git init
 
 
 ## 2.3. 查看当前git状态
+```
 $ git status
+```
 
 ```
 $ echo 'My Project' > README
@@ -62,8 +67,11 @@ M  lib/simplegit.rb
 ```
 
 其中  M在右边  被修改/未被放入暂存区
+
 M在左边   被修改/已放入暂存区
+
 A  新添加到暂存区文件
+
 ??  未被跟踪
 
 ## 2.4. 丢弃之前的更改
@@ -108,7 +116,10 @@ doc/**/*.pdf
 ## 2.6. 删除文件
 删除文件后，会在status状态下看到文件的更改未提交状态
 此时继续执行
+
+```
 git rm filename
+```
 
 可以移除git目录下的跟踪状态
 
@@ -120,15 +131,18 @@ git rm filename
 
 如果希望把文件从git仓库中移除并必须保留在工作区而不被git继续跟踪，而这个文件又被放到了暂存区内
 则需要使用
-
+```
 git rm --cached README
-
+```
 
 ## 2.7. 提交文件文本信息
 
 在打开的vim编辑器中，会默认第一行开始输入信息，也可以删除不写
 退出编辑模式后会自动commit携带这部分的信息
-也可以使用git commit -m "在这里输入你本次提交的具体说明"
+也可以使用
+```
+git commit -m "在这里输入你本次提交的具体说明"
+```
 
 **提交的内容是暂存区的内容，如果文件不在暂存区内，则仍然会继续保持其已修改状态**
 
@@ -188,46 +202,168 @@ $ git reflog
 $ git rm [file name]
 ## 7.2. 错误删除，恢复文件
 $ git checkout -- [file name]
-
-# 8. 远程推送
-## 8.1. 先创建一个SSH秘钥
-## 8.2. 添加秘钥到github账户SSH列表中
-## 8.3. 创建一个新的git仓库
-## 8.4. 将本地文件推送到远程仓库
+# 8. 远程
+## 8.1. 远程推送
+### 8.1.1. 先创建一个SSH秘钥
+### 8.1.2. 添加秘钥到github账户SSH列表中
+### 8.1.3. 创建一个新的git仓库
+### 8.1.4. 将本地文件推送到远程仓库
 $ git remote add origin git@github.com:JiuMengDz/learngit.git
 关联远程仓库
 
 $ git push -u origin master
 将本地库远程推送到github仓库中
 
-# 9. 远程克隆
+## 8.2. 远程克隆
 $ git clone git@github.com:JiuMengDz/gitskills.git
 克隆gitskills库到本地文件夹中
+## 8.3. 远程分支
 
-# 10. 分支开发
-## 10.1. 创建分支
-$ git checkout -b dev
+获取远程分支的信息
+```
+$git remote show
+```
+
+![remote-branches-1](_v_images/20181227100418292_27985.png)
+
+如果在这个过程中，网络上有人提交了更新了master分支，则本地和网络之间就会像这样
+![本地与远程的工作可以分叉](_v_images/20181227100822812_27319.png)
+
+如果要同步你的工作，运行 git fetch origin 命令。 这个命令查找 “origin” 是哪一个服务器（在本例中，它是 git.ourcompany.com），从中抓取本地没有的数据，并且更新本地数据库，移动 origin/master 指针指向新的、更新后的位置。
+
+![remote-branches-3](_v_images/20181227100927085_18993.png)
+
+```
+$git push origin serverfix:serverfix
+推送本地serverfix分支作为远程的serverfix分支
+$git push origin serverfix:awesomebranch
+推送本地serverfix分支作为远程的awesomebranch分支
+```
+
+**创建并在本地新建分支**
+
+```
+$ git checkout --track origin/serverfix
+Branch serverfix set up to track remote branch serverfix from origin.
+Switched to a new branch 'serverfix'
+
+快捷方式
+$ git checkout -b sf origin/serverfix
+Branch sf set up to track remote branch serverfix from origin.
+Switched to a new branch 'sf'
+```
+
+### 8.3.1. 跟踪分支
+
+```
+$ git branch -u origin/serverfix
+Branch serverfix set up to track remote branch serverfix from origin.
+```
+
+查看本地所有跟踪，并且查看目前的提交状态
+
+```
+$ git branch -vv
+  iss53     7e424c3 [origin/iss53: ahead 2] forgot the brackets
+  master    1ae2a45 [origin/master] deploying index fix
+* serverfix f8674d9 [teamone/server-fix-good: ahead 3, behind 1] this should do it
+  testing   5ea463a trying something new
+```
+### 8.3.2. fetch和pull的区别
+fetch从远程仓库中拉去本地没有的内容，并不会自动执行合并，而是等待用户自己进行合并，也就是执行merge命令
+
+而pull命令是拉取后直接合并，如果有冲突会提示，如果没有会直接执行合并
+### 8.3.3. 删除远程分支
+
+```
+$ git push origin --delete serverfix
+To https://github.com/schacon/simplegit
+ - [deleted]         serverfix
+```
+
+# 9. 分支开发
+## 9.1. 创建分支
+
+```
+$ git checkout -b testing
 创建并切换到新的分支 , -b 表示创建并切换到当前分支
-$ git branch dev      创建dev分支
-$ git checkout dev      切换到分支dev
+$ git branch dev      创建testing分支,不切换
+```
 
+```
 $ git branch
 列出当前所有的分支
-## 10.2. 合并分支并删除分支
+```
+**HEAD指向当前分支，git通过HEAD的指向来确认当前所处在的分支**
+![head-to-master](_v_images/20181227091010277_2869.png =480x)
+
+```
+$git checkout testing      切换到分支testing
+```
+![head-to-testing](_v_images/20181227091154694_28717.png =480x)
+
+## 9.2. 合并分支并删除分支
+在你这么做之前， **要留意你的工作目录和暂存区里那些还没有被提交的修改，它可能会和你即将检出的分支产生冲突从而阻止 Git 切换到该分支。 ** 最好的方法是，在你切换分支之前，保持好一个干净的状态。 有一些方法可以绕过这个问题（即，保存进度（stashing） 和 修补提交（commit amending））
+### 9.2.1. 保存进度 stashing
+### 9.2.2. 修补提交 commit amending
+
+```
 $ git checkout master 
 切换到master分支
 $ git merge dev
 合并dev分支到master分支
+```
+当合并结束后，不需要的分支应该删除如下图所示
+![basic-branching-5](_v_images/20181227092406326_27064.png =480x)
+```
+$ git branch -d hotfix
+删除hotfix分支
+```
+## 9.3. 冲突合并
 
-$ git branch -d dev
-删除dev分支
+遇到冲突的时候，需要手动解决，或者使用
+```
+$git mergetool    合适的合并工具
+```
 
-## 10.3. 强行删除分支
-$ git branch -D feature-vulcan
+如果手动修改完成后，需要再次执行add将修改添加入暂存区内
+
+```
+$ git branch --merged   查看已经合并的分支
+$ git branch --no-merged  查看未合并的分支
+```
+
+## 9.4. 强行删除分支
+
+如果提交的分支上有些修改还没有提交合并，-d删除会失败
+
+```
+$ git branch -d testing
+error: The branch 'testing' is not fully merged.
+If you are sure you want to delete it, run 'git branch -D testing'.
+
+$ git branch -D testing
 强行删除，需要使用大写D
+```
 
-# 11. 美观
-git rebase
+# 10. 分支开发工作流
+## 10.1. 长期分支
+![lr-branches-1](_v_images/20181227095331700_11970.png)
+
+![lr-branches-2](_v_images/20181227095339148_24035.png)
+
+将开发版本直到稳定后再合并入master分支上
+
+## 10.2. 特性分支
+![topic-branches-1](_v_images/20181227095652764_29802.png)
+
+
+![topic-branches-2](_v_images/20181227095818061_3814.png)
+
+
+# 11. 美观  变基
+在 Git 中整合来自不同分支的修改主要有两种方法：merge 以及 rebase。
+
 
 # 12. 打标签，更易于寻找版本
 ## 12.1. 创建标签
@@ -249,5 +385,8 @@ $ git push origin --tags
 ## 12.3. 删除远程标签
 ### 12.3.1. 先本地删除
 $ git tag -d v0.9
-### 12.3.2. 再删除远程标签
+### 12.3.2. 再删除远程标签  
+
+```
 $ git push origin :refs/tags/v0.9
+```
