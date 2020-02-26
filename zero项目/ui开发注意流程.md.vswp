@@ -1,0 +1,11 @@
+vnote_backup_file_826537664 E:/VnoteBook/zero项目/ui开发注意流程.md
+# 1. ui开发注意流程
+入口处，主界面   win_main文件中添加对应按钮的点击回调打开对应的界面
+界面中的show动效自动播放，命名要符合要求
+在manager脚本中注册自己的协议事件即可
+manager需要在game_manager中统一初始化
+
+需要遵守相关的命名规范 这一部分需要快点熟悉起来
+
+无请求返回的协议，需要在network中注册就可以反复监听，参考AchievementManager的reg_notify函数
+有请求的协议监听可通过call的方式调用然后直接返回相应的回调，数据存储独立进行

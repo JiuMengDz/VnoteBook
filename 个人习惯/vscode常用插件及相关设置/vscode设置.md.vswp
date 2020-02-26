@@ -1,0 +1,5 @@
+vnote_backup_file_826537664 E:/VnoteBook/个人习惯/vscode常用插件及相关设置/vscode设置.md
+# vscode设置
+"workbench.editor.enablePreview": false,  //关闭预览窗口，直接默认打开
+
+
