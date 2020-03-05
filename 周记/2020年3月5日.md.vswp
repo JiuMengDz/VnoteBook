@@ -1,0 +1,4 @@
+vnote_backup_file_826537664 E:/VnoteBook/周记/2020年3月5日.md
+# 2020年3月5日
+![](_v_images/20200305175224294_7789.png)
+由于CtrlRoleNickItem会生成很多个对象,而`have_red`在这里声明的状态是属于CtrlRoleNickItem这个类的,如果在不同对象里对`have_red`进行更改,是直接反应在类属性上,也就导致所有的对象读取的`have_red`都是一样的值

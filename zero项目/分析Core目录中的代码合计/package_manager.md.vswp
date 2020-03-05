@@ -1,0 +1,10 @@
+vnote_backup_file_826537664 E:/VnoteBook/zero项目/分析Core目录中的代码合计/package_manager.md
+# package_manager
+_stop_update_item(停止刷新物品信息,刷新间隔为1秒)
+_start_update_item(开始刷新物品信息,
+
+item:
+    last_update_elapsed_time    item最后一次刷新的时间
+    cfg    物品原始的配置表信息
+    uuid 唯一标识码
+    ![](_v_images/20200303155634806_14659.png)
